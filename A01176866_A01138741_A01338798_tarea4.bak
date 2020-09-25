@@ -1,0 +1,84 @@
+#lang racket
+; Tarea 4
+; INTEGRANTES
+; Hector Diaz, A01176866
+; Isabel Cruz, A01138741
+; Ruben Salazar, A01338798
+
+
+;EJERCICIO 1a
+
+
+;EJERCICIO 1b
+
+
+
+;EJERCICIO 2a
+
+
+
+;EJERCICIO 2b
+
+(define ABB
+  '(8 (5 (2 () ()) (7 () ()))
+      (9 () (15 (11 () ()) ()) )
+      )
+  )
+
+(define ABB2
+  '(a (b (c () ()) ()) (d (e () ()) ()))
+  )
+
+(define (cuenta-nivel nivel arbol)
+  (cuenta-aux 0 nivel arbol)
+  )
+
+(define (cuenta-aux index nivel arbol)
+  (cond
+    [(null? arbol) 0]
+    [(= index nivel)
+     (if (null? (car arbol)) 0 1)]
+    [else (+ (cuenta-aux (+ index 1) nivel (cadr arbol))
+             (cuenta-aux (+ index 1) nivel (caddr arbol))
+             )
+          ]
+    )
+  )
+
+
+;EJERCICIO 3a
+
+
+
+
+;EJERCICIO 3b
+(define g
+  '((A (B 2) (D 10))
+    (B (C 9) (E 5))
+    (C (A 12) (D 6))
+    (D (E 7))
+    (E (C 3))
+    ))
+
+(define (elimina-nodo grafo nodo)
+  (apply append
+         (map
+          (lambda (seccion)
+            (if (eq? (car seccion) nodo)
+                '()
+                (list 
+                 (append (list(car seccion))
+                         (apply append
+                                (map
+                                 (lambda (adyacente)
+                                   (if (eq? (car adyacente) nodo)
+                                       '()
+                                       (list adyacente) )
+                                   ) (cdr seccion)))) )
+                ))
+          grafo)))
+
+
+
+
+
