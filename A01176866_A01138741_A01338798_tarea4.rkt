@@ -10,7 +10,38 @@
 
 
 ;EJERCICIO 1b
+(define (agrega-fila matriz numFilas)
+  (if (>= (length matriz) numFilas)
+      matriz
+      (agrega-fila (append matriz (list (list 0))) numFilas)))
 
+
+(define (agrega-columna lista numColumnas)
+  (if (>= (length lista) numColumnas)
+      lista
+      (agrega-columna (append lista (list 0)) numColumnas)))
+
+(define (cambiar-valor lista indice indiceActual valor)
+  (cond
+    ((= indice indiceActual) (append (list valor) (rest lista)))
+    (else
+     (append (list (first lista)) (cambiar-valor (rest lista) indice (+ indiceActual 1) valor)))))
+
+
+(define (agrega-valor-helper valor posicion matriz renglonActual)
+  (cond
+    ((= renglonActual (first posicion)) (cons (cambiar-valor (first matriz) (second posicion) 1 valor) (rest matriz)))
+    (else
+     (cons (first matriz) (agrega-valor-helper valor posicion (rest matriz) (+ renglonActual 1))))))
+
+(define (agrega-columnas matriz numColumnas)
+  (cond
+    ((empty? matriz) matriz)
+    (else
+     (cons (agrega-columna (first matriz) numColumnas) (agrega-columnas (rest matriz) numColumnas)))))
+
+(define (agrega-valor valor posicion matriz)
+  (agrega-valor-helper valor posicion (agrega-columnas (agrega-fila matriz (first posicion)) (second posicion)) 1))
 
 
 ;EJERCICIO 2a
@@ -47,7 +78,9 @@
 
 
 ;EJERCICIO 3a
-
+(define (nodos-destino grafo nodo)
+  (flatten (map (lambda (adyacencia) (if (equal? (first adyacencia) nodo) (apply append (map (lambda (edge) (list (first edge))) (rest adyacencia))) '())) grafo)))
+  
 
 
 
